@@ -6,9 +6,8 @@ name: Maven Package
 on:
   workflow_dispatch:
     inputs:
-      publish:
-        description: 'True to release to Github packages'
-        required: true
+      archive:
+        description: 'True to archive the build artifact'
         default: false
         type: boolean
   release:
@@ -37,6 +36,7 @@ jobs:
 
     - name: Archive plugin artifact
       uses: actions/upload-artifact@v3
+      if: ${{ inputs.archive }}
       with:
         name: plugin 
         path: target/components/packages/confluentinc-kafka-connect-datagen-*.zip
