@@ -35,8 +35,8 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      if: ${{ inputs.publish }}
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - name: Archive plugin artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: plugin 
+        path: target/components/packages/confluentinc-kafka-connect-datagen-*.zip
