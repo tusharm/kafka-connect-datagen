@@ -40,3 +40,4 @@ jobs:
       with:
         name: plugin 
         path: target/components/packages/confluentinc-kafka-connect-datagen-*.zip
+        retention-days: 7
