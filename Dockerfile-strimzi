@@ -1,0 +1,13 @@
+ARG STRIMZI_KAFKA_VERSION=0.33.2-kafka-3.4.0
+
+FROM quay.io/strimzi/kafka:${STRIMZI_KAFKA_VERSION}
+USER root:root
+
+ARG DATAGEN_VERSION
+COPY ./target/components/packages/confluentinc-kafka-connect-datagen-${DATAGEN_VERSION}.zip /tmp/kafka-connect-datagen.zip
+
+WORKDIR /opt/kafka/plugins 
+RUN unzip /tmp/kafka-connect-datagen.zip && rm -f /tmp/kafka-connect-datagen.zip
+
+WORKDIR /opt/kafka
+USER 1001

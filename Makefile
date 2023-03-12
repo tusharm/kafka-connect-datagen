@@ -53,6 +53,9 @@ build-cp-server-connect-operator-from-local: package ## Build the Docker image b
 build-cp-server-connect-operator-from-released: ## Build a Docker image using a released version of the kafka-connect-datagen connector 
 	@docker buildx build --load --platform $(BUILD_PLATFORM) -t cp-server-connect-operator-datagen:$(AGGREGATE_VERSION).$(OPERATOR_VERSION) --build-arg BASE_PREFIX=$(BASE_PREFIX) --build-arg KAFKA_CONNECT_DATAGEN_VERSION=$(KAFKA_CONNECT_DATAGEN_VERSION) --build-arg CP_VERSION=$(CP_VERSION).$(OPERATOR_VERSION) --build-arg CONNECT_IMAGE=cp-server-connect-operator -f Dockerfile-confluenthub .
 
+build-strimzi-connect-from-local: package ## Build Strimzi image using the locally mvn built kafka-connect-datagen package
+	@docker buildx build --load --platform $(BUILD_PLATFORM) -t strimzi-connect-datagen:$(KAFKA_CONNECT_DATAGEN_LOCAL_VERSION) --build-arg DATAGEN_VERSION=$(KAFKA_CONNECT_DATAGEN_LOCAL_VERSION) -f Dockerfile-strimzi .
+
 push-from-local: package
 	@docker buildx build --push --platform linux/amd64,linux/arm64 -t $(PUSH_PREFIX)/kafka-connect-datagen:$(AGGREGATE_LOCAL_VERSION) --build-arg BASE_PREFIX=$(BASE_PREFIX) --build-arg KAFKA_CONNECT_DATAGEN_VERSION=$(KAFKA_CONNECT_DATAGEN_LOCAL_VERSION) --build-arg CP_VERSION=$(CP_VERSION) -f Dockerfile-local .
 
